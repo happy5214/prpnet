@@ -60,7 +60,7 @@ void CarolKyneaHTML::ServerStats(void)
       if (!ip_Socket->Send("<tr class=\"%s\">", (countUntested ? "untested" : "tested")))
          break;
 
-      ip_Socket->Send("<th scope=\"row\">(%d^n%+d)^2-2</th>", b, c);
+      ip_Socket->Send("<th scope=\"row\">(%d^<var>n</var>%+d)^2-2</th>", b, c);
       TD_32BIT(countInGroup);
       TD_32BIT(minInGroup);
       TD_32BIT(maxInGroup);

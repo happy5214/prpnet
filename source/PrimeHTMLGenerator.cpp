@@ -740,26 +740,26 @@ void     PrimeHTMLGenerator::ServerStatsHeader(sss_t summarizedBy)
 
    if (summarizedBy == BY_K)
    {
-      TH_CLMN_HDR("Min K");
-      TH_CLMN_HDR("Max K");
+      TH_CLMN_HDR("Min <var>K</var>");
+      TH_CLMN_HDR("Max <var>K</var>");
    }
 
    if (summarizedBy == BY_B)
    {
-      TH_CLMN_HDR("Min B");
-      TH_CLMN_HDR("Max B");
+      TH_CLMN_HDR("Min <var>B</var>");
+      TH_CLMN_HDR("Max <var>B</var>");
    }
 
    if (summarizedBy == BY_Y)
    {
-      TH_CLMN_HDR("Min Y");
-      TH_CLMN_HDR("Max Y");
+      TH_CLMN_HDR("Min <var>Y</var>");
+      TH_CLMN_HDR("Max <var>Y</var>");
    }
 
    if (summarizedBy == BY_N)
    {
-      TH_CLMN_HDR("Min N");
-      TH_CLMN_HDR("Max N");
+      TH_CLMN_HDR("Min <var>N</var>");
+      TH_CLMN_HDR("Max <var>N</var>");
    }
 
    TH_CLMN_HDR("Count Tested");

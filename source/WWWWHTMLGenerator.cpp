@@ -240,7 +240,7 @@ void     WWWWHTMLGenerator::FindsByUser(void)
          {
             if (ii_ServerType == ST_WALLSUNSUN)
             {
-               ip_Socket->Send("<th scope=\"row\">%" PRId64" (0 %+d p)</th>", prime, quotient);
+               ip_Socket->Send("<th scope=\"row\">%" PRId64" (0 %+d <var>p</var>)</th>", prime, quotient);
 
                TD_CHAR(teamID);
                TD_CHAR(machineID);
@@ -249,7 +249,7 @@ void     WWWWHTMLGenerator::FindsByUser(void)
             }
             else
             {
-               ip_Socket->Send("<th scope=\"row\">%" PRId64" (%+d %+d p)</th>",
+               ip_Socket->Send("<th scope=\"row\">%" PRId64" (%+d %+d <var>p</var>)</th>",
                                  prime, remainder, quotient);
 
                TD_CHAR(teamID);
@@ -356,10 +356,10 @@ void     WWWWHTMLGenerator::FindsByTeam(void)
          else
          {
             if (ii_ServerType == ST_WALLSUNSUN)
-               ip_Socket->Send("<tr><td style=\"text-align: center;\">%" PRId64" (0 %+d p)</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+               ip_Socket->Send("<tr><td style=\"text-align: center;\">%" PRId64" (0 %+d <var>p</var>)</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
                                  prime, quotient, userID, machineID, instanceID, TimeToString(dateReported).c_str());
             else
-               ip_Socket->Send("<tr><td style=\"text-align: center;\">%" PRId64" (%+d %+d p)</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+               ip_Socket->Send("<tr><td style=\"text-align: center;\">%" PRId64" (%+d %+d <var>p</var>)</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
                                  prime, remainder, quotient, userID, machineID, instanceID, TimeToString(dateReported).c_str());
          }
       }

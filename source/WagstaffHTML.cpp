@@ -54,7 +54,7 @@ void  WagstaffHTML::ServerStats(void)
       if (!ip_Socket->Send("<tr class=\"%s\">", (countUntested ? "untested" : "tested")))
          break;
 
-      ip_Socket->Send("<th scope=\"row\">(2^n+1)/3</th>");
+      ip_Socket->Send("<th scope=\"row\">(2^<var>n</var>+1)/3</th>");
       TD_32BIT(countInGroup);
       TD_32BIT(minInGroup);
       TD_32BIT(maxInGroup);

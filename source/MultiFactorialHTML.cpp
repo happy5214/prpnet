@@ -58,7 +58,7 @@ void  MultiFactorialHTML::ServerStats(void)
       if (!ip_Socket->Send("<tr class=\"%s\">", (countUntested ? "untested" : "tested")))
          break;
 
-      ip_Socket->Send("<th scope=\"row\">n!%d%+d</th>", b, c);
+      ip_Socket->Send("<th scope=\"row\"><var>n</var>!%d%+d</th>", b, c);
       TD_32BIT(countInGroup);
       TD_32BIT(minInGroup);
       TD_32BIT(maxInGroup);

@@ -59,9 +59,9 @@ void XYYXHTML::ServerStats(void)
          break;
 
       if (c == 1)
-         ip_Socket->Send("<th scope=\"row\">%d^y+y^%d</th>", b, b);
+         ip_Socket->Send("<th scope=\"row\">%d^<var>y</var>+<var>y</var>^%d</th>", b, b);
       else
-         ip_Socket->Send("<th scope=\"row\">y^%d-%d^y</th>", b, b);
+         ip_Socket->Send("<th scope=\"row\"><var>y</var>^%d-%d^<var>y</var></th>", b, b);
 
       TD_32BIT(countInGroup);
       TD_32BIT(minInGroup);

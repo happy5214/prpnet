@@ -65,7 +65,7 @@ void SophieGermainHTML::ServerStats(void)
       if (!ip_Socket->Send("<tr class=\"%s\">", (countUntested ? "untested" : "tested")))
          break;
 
-      ip_Socket->Send("<th scope=\"row\">k*%d^%d%+d</th>", b, n, c);
+      ip_Socket->Send("<th scope=\"row\"><var>k</var>*%d^%d%+d</th>", b, n, c);
       TD_32BIT(countInGroup);
       TD_64BIT(minInGroup);
       TD_64BIT(maxInGroup);

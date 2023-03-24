@@ -51,8 +51,8 @@ void SierpinskiRieselHTML::ServerStats(void)
 
       TH_CLMN_HDR("Form");
       TH_CLMN_HDR("Total Candidates");
-      TH_CLMN_HDR("Min N");
-      TH_CLMN_HDR("Max N");
+      TH_CLMN_HDR("Min <var>N</var>");
+      TH_CLMN_HDR("Max <var>N</var>");
       TH_CLMN_HDR("Count Tested");
       TH_CH_IF_DC("Count DC\'d");
       TH_CLMN_HDR("Count Untested");
@@ -75,10 +75,10 @@ void SierpinskiRieselHTML::ServerStats(void)
             totalConjectures++;
 
             if (ib_ServerStatsSummaryOnly)
-                ip_Socket->Send("<tr><th scope=\"row\">%c%d k\'s: %d</th>",
+                ip_Socket->Send("<tr><th scope=\"row\">%c%d <var>k</var>\'s: %d</th>",
                                 (c > 0 ? 'S' : 'R'), prevB, conjectureKs);
             else
-                ip_Socket->Send("</tbody><tfoot><tr class=\"%s\"><th scope=\"row\">%c%d k\'s: %d</th>",
+                ip_Socket->Send("</tbody><tfoot><tr class=\"%s\"><th scope=\"row\">%c%d <var>k</var>\'s: %d</th>",
                       (conjectureKs == conjecturePRPsAndPrimesFound ? "conjectureComplete" : "conjectureIncomplete"),
                       (c > 0 ? 'S' : 'R'), prevB, conjectureKs);
 
@@ -110,8 +110,8 @@ void SierpinskiRieselHTML::ServerStats(void)
 
             TH_CLMN_HDR("Form");
             TH_CLMN_HDR("Total Candidates");
-            TH_CLMN_HDR("Min N");
-            TH_CLMN_HDR("Max N");
+            TH_CLMN_HDR("Min <var>N</var>");
+            TH_CLMN_HDR("Max <var>N</var>");
             TH_CLMN_HDR("Count Tested");
             TH_CH_IF_DC("Count DC\'d");
             TH_CLMN_HDR("Count Untested");
@@ -171,9 +171,9 @@ void SierpinskiRieselHTML::ServerStats(void)
          ip_Socket->Send("<tr class=\"%s\">", ((sierpinskiRieselPrimeN > 0) ? "found" : (kCountUntested ? "untested" : "tested")));
 
          if (k > 1)
-            ip_Socket->Send("<th scope=\"row\">%" PRId64"*%d^n%+d</th>", k, b, c);
+            ip_Socket->Send("<th scope=\"row\">%" PRId64"*%d^<var>n</var>%+d</th>", k, b, c);
          else
-            ip_Socket->Send("<th scope=\"row\">%d^n%+d</th>", b, c);
+            ip_Socket->Send("<th scope=\"row\">%d^<var>n</var>%+d</th>", b, c);
 
          TD_32BIT(kCountInGroup);
          TD_32BIT(kMinN);
@@ -204,10 +204,10 @@ void SierpinskiRieselHTML::ServerStats(void)
    } while (sqlStatement->FetchRow(false));
 
    if (ib_ServerStatsSummaryOnly)
-      ip_Socket->Send("<tr><th scope=\"row\">%c%d k\'s: %d</th>",
+      ip_Socket->Send("<tr><th scope=\"row\">%c%d <var>k</var>\'s: %d</th>",
                       (c > 0 ? 'S' : 'R'), prevB, conjectureKs);
    else
-      ip_Socket->Send("</tbody><tfoot><tr class=\"%s\"><th scope=\"row\">%c%d k\'s: %d</th>",
+      ip_Socket->Send("</tbody><tfoot><tr class=\"%s\"><th scope=\"row\">%c%d <var>k</var>\'s: %d</th>",
                       (conjectureKs == conjecturePRPsAndPrimesFound ? "conjectureComplete" : "conjectureIncomplete"),
                       (c > 0 ? 'S' : 'R'), prevB, conjectureKs);
 
@@ -254,10 +254,10 @@ void SierpinskiRieselHTML::ServerStats(void)
                          (ib_NeedsDoubleCheck ? 12 : 11), totalConjectures);
          ip_Socket->Send("<tr>");
 
-         TH_CLMN_HDR("Total k");
+         TH_CLMN_HDR("Total <var>k</var>");
          TH_CLMN_HDR("Total Candidates");
-         TH_CLMN_HDR("Min N");
-         TH_CLMN_HDR("Max N");
+         TH_CLMN_HDR("Min <var>N</var>");
+         TH_CLMN_HDR("Max <var>N</var>");
          TH_CLMN_HDR("Count Tested");
          TH_CH_IF_DC("Count DC\'d");
          TH_CLMN_HDR("Count Untested");
@@ -266,7 +266,7 @@ void SierpinskiRieselHTML::ServerStats(void)
          TH_CLMN_HDR("Completed Thru");
          TH_CLMN_HDR("Leading Edge");
          TH_CLMN_HDR("PRPs/Primes");
-         TH_CLMN_HDR("Remaining k");
+         TH_CLMN_HDR("Remaining <var>k</var>");
 
          ip_Socket->Send("</tr></thead>");
          ip_Socket->Send("<tbody><tr style=\"background-color: white;\">");
