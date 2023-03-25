@@ -39,7 +39,7 @@ protected:
    bool          SendSpecificPage(string thePage);
    ServerHelper *GetServerHelper(void);
 
-   void     HeaderPlusLinks(string pageTitle);
+   void     SendLinks();
 };
 
 #endif // #ifndef _PrimeHTMLGenerator_

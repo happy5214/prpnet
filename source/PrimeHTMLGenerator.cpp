@@ -394,8 +394,8 @@ void     PrimeHTMLGenerator::GFNDivisorsByUser(void)
             ip_Socket->Send("</table>");
          }
 
-         ip_Socket->Send("<table style=\"margin-bottom: 2em;\" class=\"sortable\"><thead>");
-         ip_Socket->Send("<tr class=\"headercolor\"><td class=\"headertext\" style=\"text-align: center;\" colspan=\"3\">GFN Divisors for User %s</td></tr><tr>", userID);
+         ip_Socket->Send("<table class=\"gfn-divisors-by-user-table sortable\"><thead>");
+         ip_Socket->Send("<tr><th colspan=\"3\">GFN Divisors for User %s</th></tr><tr>", userID);
 
          TH_CLMN_HDR("Tested Number");
          TH_CLMN_HDR("Divides GFN");
@@ -416,7 +416,7 @@ void     PrimeHTMLGenerator::GFNDivisorsByUser(void)
       ip_Socket->Send("</tr>");
    } while (sqlStatement->FetchRow(false));
    ip_Socket->Send("</tbody><tfoot>");
-   ip_Socket->Send("<tr><td style=\"text-align: center;\" colspan=\"3\">User %s has found %d GFN divisor%s</td></tr>",
+   ip_Socket->Send("<tr><td colspan=\"3\">User %s has found %d GFN divisor%s</td></tr>",
                   prevUserID, gfnDivisorCount, PLURAL_ENDING(gfnDivisorCount));
    ip_Socket->Send("</tfoot></table></article>");
 
@@ -452,9 +452,9 @@ void     PrimeHTMLGenerator::UserStats(void)
       return;
 
    ip_Socket->StartBuffering();
-   ip_Socket->Send("<table style=\"margin-bottom: 1em;\">");
-   ip_Socket->Send("<tr class=\"headercolor\"><th class=\"headertext\" style=\"text-align: center;\" colspan=\"6\">User Stats</th></tr>");
-   ip_Socket->Send("</table>");
+   ip_Socket->Send("<div id=\"user-stats-header\">");
+   ip_Socket->Send("<span><span>User Stats</span></span>");
+   ip_Socket->Send("</div>");
    ip_Socket->Send("<table id=\"user-stats-table\" class=\"sortable\">");
 
    ip_Socket->Send("<thead><tr>");
@@ -666,24 +666,26 @@ void     PrimeHTMLGenerator::TeamStats(void)
    delete sqlStatement;
 }
 
-void     PrimeHTMLGenerator::SendLinks(string pageTitle)
+void     PrimeHTMLGenerator::SendLinks()
 {
-   ip_Socket->Send("<nav><table style=\"font-weight: bold; font-size: large;\"><tr>");
+   ip_Socket->Send("<nav class=\"%s\">", (CanCheckForGFNs() ? "five-track" : "four-track"));
 
-   ip_Socket->Send("<td><a href=\"server_stats.html\">Server Statistics</a></td>");
-   ip_Socket->Send("<td><a href=\"pending_tests.html\">Pending Tests</a></td>");
-   ip_Socket->Send("<td><a href=\"user_stats.html\">User Statistics</a></td>");
-   ip_Socket->Send("<td><a href=\"user_primes.html\">User Primes</a></td>");
+   ip_Socket->Send("<div><a href=\"server_stats.html\">Server Statistics</a></div>");
+   ip_Socket->Send("<div><a href=\"pending_tests.html\">Pending Tests</a></div>");
+   ip_Socket->Send("<div><a href=\"user_stats.html\">User Statistics</a></div>");
+   ip_Socket->Send("<div><a href=\"user_primes.html\">User Primes</a></div>");
    if (CanCheckForGFNs())
-      ip_Socket->Send("<td><a href=\"user_gfns.html\">User GFNs</a></td>");
+      ip_Socket->Send("<div><a href=\"user_gfns.html\">User GFNs</a></div>");
    if (HasTeams())
    {
-      ip_Socket->Send("</tr><tr><td><a href=\"userteam_stats.html\">User/Team Statistics</a></td>");
-      ip_Socket->Send("<td><a href=\"teamuser_stats.html\">Team/User Statistics</a></td>");
-      ip_Socket->Send("<td><a href=\"team_stats.html\">Team Statistics</a></td>");
-      ip_Socket->Send("<td><a href=\"team_primes.html\">Team Primes</a></td>");
+      ip_Socket->Send("<div><a href=\"userteam_stats.html\">User/Team Statistics</a></div>");
+      ip_Socket->Send("<div><a href=\"teamuser_stats.html\">Team/User Statistics</a></div>");
+      ip_Socket->Send("<div><a href=\"team_stats.html\">Team Statistics</a></div>");
+      ip_Socket->Send("<div><a href=\"team_primes.html\">Team Primes</a></div>");
+      if (CanCheckForGFNs())
+        ip_Socket->Send("<div>&nbsp;</div>");
    }
-   ip_Socket->Send("</tr></table></nav>");
+   ip_Socket->Send("</nav><div style=\"clear: both;\"></div>");
 }
 
 bool     PrimeHTMLGenerator::CanCheckForGFNs(void)

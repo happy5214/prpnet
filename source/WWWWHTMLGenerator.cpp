@@ -684,22 +684,22 @@ void  WWWWHTMLGenerator::ConvertToScientificNotation(int64_t valueInt, string &v
    valueStr = tempValue;
 }
 
-void     WWWWHTMLGenerator::SendLinks(string pageTitle)
+void     WWWWHTMLGenerator::SendLinks()
 {
-   ip_Socket->Send("<nav style=\"margin-bottom: 2em;\"><table style=\"font-weight: bold; font-size: large;\"><tr>");
+   ip_Socket->Send("<nav class=\"four-track\">");
 
-   ip_Socket->Send("<td><a href=\"server_stats.html\">Server Statistics</a></td>");
-   ip_Socket->Send("<td><a href=\"pending_work.html\">Pending Work</a></td>");
-   ip_Socket->Send("<td><a href=\"user_stats.html\">User Statistics</a></td>");
-   ip_Socket->Send("<td><a href=\"user_finds.html\">User Finds</a></td>");
+   ip_Socket->Send("<div><a href=\"server_stats.html\">Server Statistics</a></div>");
+   ip_Socket->Send("<div><a href=\"pending_work.html\">Pending Work</a></div>");
+   ip_Socket->Send("<div><a href=\"user_stats.html\">User Statistics</a></div>");
+   ip_Socket->Send("<div><a href=\"user_finds.html\">User Finds</a></div>");
    if (HasTeams())
    {
-      ip_Socket->Send("<tr><td><a href=\"team_stats.html\">Team Statistics</a></td>");
-      ip_Socket->Send("<td><a href=\"team_finds.html\">Team Finds</a></td>");
-      ip_Socket->Send("<td><a href=\"userteam_stats.html\">User/Team Statistics</a></td>");
-      ip_Socket->Send("<td><a href=\"teamuser_stats.html\">Team/User Statistics</a></td>");
+      ip_Socket->Send("<div><a href=\"team_stats.html\">Team Statistics</a></div>");
+      ip_Socket->Send("<div><a href=\"team_finds.html\">Team Finds</a></div>");
+      ip_Socket->Send("<div><a href=\"userteam_stats.html\">User/Team Statistics</a></div>");
+      ip_Socket->Send("<div><a href=\"teamuser_stats.html\">Team/User Statistics</a></div>");
    }
-   ip_Socket->Send("</tr></table></nav>");
+   ip_Socket->Send("</nav><div style=\"clear: both;\"></div>");
 }
 
 ServerHelper *WWWWHTMLGenerator::GetServerHelper(void)

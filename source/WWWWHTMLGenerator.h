@@ -32,7 +32,7 @@ protected:
 
    bool CheckIfRecordsWereFound(SQLStatement *sqlStatement, string noRecordsFoundMessage, ...);
 
-   void     HeaderPlusLinks(string pageTitle);
+   void     SendLinks();
 
 private:
    void     ConvertToScientificNotation(int64_t valueInt, string &valueStr);
