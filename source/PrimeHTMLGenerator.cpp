@@ -452,7 +452,7 @@ void     PrimeHTMLGenerator::UserStats(void)
       return;
 
    ip_Socket->StartBuffering();
-   ip_Socket->Send("<div id=\"user-stats-header\">");
+   ip_Socket->Send("<div class=\"header-box\">");
    ip_Socket->Send("<span><span>User Stats</span></span>");
    ip_Socket->Send("</div>");
    ip_Socket->Send("<table id=\"user-stats-table\" class=\"sortable\">");
@@ -470,7 +470,7 @@ void     PrimeHTMLGenerator::UserStats(void)
    {
       ip_Socket->Send("<tr>");
 
-      TD_CHAR(userID);
+      TH_ROW_HDR(userID);
       TD_FLOAT(totalScore);
       TD_32BIT(testsPerformed);
       TD_32BIT(prpsFound);
@@ -650,7 +650,7 @@ void     PrimeHTMLGenerator::TeamStats(void)
    {
       ip_Socket->Send("<tr>");
 
-      TD_CHAR(teamID);
+      TH_ROW_HDR(teamID);
       TD_FLOAT(totalScore);
       TD_32BIT(testsPerformed);
       TD_32BIT(prpsFound);

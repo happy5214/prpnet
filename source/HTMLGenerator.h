@@ -20,6 +20,7 @@
 
 #define  TH_CLMN_HDR(x) ip_Socket->Send("<th scope=\"col\">%s</th>", x)
 #define  TH_CH_IF_DC(x) if (ib_NeedsDoubleCheck) ip_Socket->Send("<th scope=\"col\">%s</th>", x)
+#define  TH_ROW_HDR(x) ip_Socket->Send("<th scope=\"row\">%s</th>", x)
 
 #define  PLURAL_ENDING(count) ((count) == 1) ? "" : "s"
 #define  PLURAL_COPULA(count) ((count) == 1) ? "is" : "are"

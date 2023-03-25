@@ -96,13 +96,12 @@ void     WWWWHTMLGenerator::PendingTests(void)
 
    currentTime = time(NULL);
 
-   ip_Socket->Send("<article>");
+   ip_Socket->Send("<article><h2>Pending Work</h2>");
 
    if (!CheckIfRecordsWereFound(sqlStatement, "No Pending WU\'s"))
       return;
 
-   ip_Socket->Send("<table id=\"pending-tests-table\"><thead>");
-   ip_Socket->Send("<tr><th colspan=\"8\">Pending WU\'s</th></tr><tr>");
+   ip_Socket->Send("<table id=\"pending-tests-table\"><thead><tr>");
 
    TH_CLMN_HDR("Range");
    TH_CLMN_HDR("User");
@@ -203,9 +202,9 @@ void     WWWWHTMLGenerator::FindsByUser(void)
             ip_Socket->Send("<tr><td colspan=\"6\">&nbsp;</td></tr></tbody>");
          }
 
-         ip_Socket->Send("<tbody><tr class=\"headercolor\"><th style=\"text-align: center;\" colspan=\"7\">%s and Near %s for User %s</th></tr>",
+         ip_Socket->Send("<tbody><tr><th scope=\"rowgroup\" colspan=\"7\">%s and Near %s for User %s</th></tr>",
                            ic_SearchType, ic_SearchType, userID);
-         ip_Socket->Send("<tr class=\"headercolor\">");
+         ip_Socket->Send("<tr>");
 
          TH_CLMN_HDR("Value");
          TH_CLMN_HDR("Team");
@@ -334,10 +333,16 @@ void     WWWWHTMLGenerator::FindsByTeam(void)
             ip_Socket->Send("<tr><td colspan=\"6\">&nbsp;</td></tr></tbody>");
          }
 
-         ip_Socket->Send("<tbody><tr class=\"headercolor\"><th style=\"text-align: center;\" colspan=\"7\">%s and Near %s for Team %s</th></tr>",
+         ip_Socket->Send("<tbody><tr><th scope=\"rowgroup\" colspan=\"7\">%s and Near %s for Team %s</th></tr>",
                            ic_SearchType, ic_SearchType, teamID);
-         ip_Socket->Send("<tr class=\"headercolor\"><th>Value</th><th scope=\"col\">User</th>");
-         ip_Socket->Send("<th scope=\"col\">Machine</th><th scope=\"col\">Instance</th><th scope=\"col\">Date Reported</th></tr>");
+
+         ip_Socket->Send("<tr>");
+         TH_CLMN_HDR("Value");
+         TH_CLMN_HDR("User");
+         TH_CLMN_HDR("Machine");
+         TH_CLMN_HDR("Instance");
+         TH_CLMN_HDR("Date Reported");
+         ip_Socket->Send("</tr>");
 
          strcpy(prevTeamID, teamID);
          hiddenCount = foundCount = nearCount = 0;
@@ -350,18 +355,39 @@ void     WWWWHTMLGenerator::FindsByTeam(void)
 
       if (showOnWebPage)
       {
+         ip_Socket->Send("<tr>");
          if (!remainder && !quotient)
-            ip_Socket->Send("<tr><td style=\"text-align: center;\">%" PRId64"</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-                              prime, userID, machineID, instanceID, TimeToString(dateReported).c_str());
+         {
+            ip_Socket->Send("<th scope=\"row\">%" PRId64"</th>", prime);
+
+            TD_CHAR(userID);
+            TD_CHAR(machineID);
+            TD_CHAR(instanceID);
+            TD_CHAR(TimeToString(dateReported).c_str());
+         }
          else
          {
             if (ii_ServerType == ST_WALLSUNSUN)
-               ip_Socket->Send("<tr><td style=\"text-align: center;\">%" PRId64" (0 %+d <var>p</var>)</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-                                 prime, quotient, userID, machineID, instanceID, TimeToString(dateReported).c_str());
+            {
+               ip_Socket->Send("<th scope=\"row\">%" PRId64" (0 %+d <var>p</var>)</th>", prime, quotient);
+
+               TD_CHAR(userID);
+               TD_CHAR(machineID);
+               TD_CHAR(instanceID);
+               TD_CHAR(TimeToString(dateReported).c_str());
+            }
             else
-               ip_Socket->Send("<tr><td style=\"text-align: center;\">%" PRId64" (%+d %+d <var>p</var>)</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
-                                 prime, remainder, quotient, userID, machineID, instanceID, TimeToString(dateReported).c_str());
+            {
+               ip_Socket->Send("<th scope=\"row\">%" PRId64" (%+d %+d <var>p</var>)</th>",
+                                 prime, remainder, quotient);
+
+               TD_CHAR(userID);
+               TD_CHAR(machineID);
+               TD_CHAR(instanceID);
+               TD_CHAR(TimeToString(dateReported).c_str());
+            }
          }
+         ip_Socket->Send("</tr>");
       }
       else
          hiddenCount++;
@@ -420,13 +446,16 @@ void  WWWWHTMLGenerator::ServerStats(void)
    ip_Socket->StartBuffering();
 
    ip_Socket->Send("<table id=\"server-stats-table\"><thead>");
-   ip_Socket->Send("<tr class=\"headercolor\"><th style=\"text-align: center;\" colspan=\"%d\">Server Stats</th></tr>",
-                   (ib_NeedsDoubleCheck ? 11 : 10));
-   ip_Socket->Send("<tr><th scope=\"col\">Total Ranges</th><th scope=\"col\">Min Range Start</th>");
-   ip_Socket->Send("<th scope=\"col\">Max Range Start</th><th scope=\"col\">Count Tested</th>");
-   if (ib_NeedsDoubleCheck) ip_Socket->Send("<th scope=\"col\">Count DC\'d</th>");
-   ip_Socket->Send("<th scope=\"col\">Count Untested</th><th scope=\"col\">In Progress</th>");
-   ip_Socket->Send("<th scope=\"col\">Completed Thru</th><th scope=\"col\">Leading Edge</th>");
+   ip_Socket->Send("<tr>");
+   TH_CLMN_HDR("Total Ranges");
+   TH_CLMN_HDR("Min Range Start");
+   TH_CLMN_HDR("Max Range Start");
+   TH_CLMN_HDR("Count Tested");
+   TH_CH_IF_DC("Count DC\'d");
+   TH_CLMN_HDR("Count Untested");
+   TH_CLMN_HDR("In Progress");
+   TH_CLMN_HDR("Completed Thru");
+   TH_CLMN_HDR("Leading Edge");
    ip_Socket->Send("<th scope=\"col\">%ss</th><th scope=\"col\">Near %ss</th>", ic_SearchType, ic_SearchType);
    ip_Socket->Send("</tr></thead><tbody>");
 
@@ -489,21 +518,26 @@ void  WWWWHTMLGenerator::UserStats(void)
       return;
 
    ip_Socket->StartBuffering();
-   ip_Socket->Send("<table style=\"margin-bottom: 1em;\">");
-   ip_Socket->Send("<tr class=\"headercolor\"><th style=\"text-align: center;\" colspan=\"6\">User Stats</th></tr>");
-   ip_Socket->Send("</table>");
-   ip_Socket->Send("<table id=\"user-stats-table\" class=\"sortable\"><thead>");
-   ip_Socket->Send("<tr><th scope=\"col\">User</th>");
-   ip_Socket->Send("<th scope=\"col\" class=\"sorttable_numeric\">Total Score</th><th scope=\"col\" class=\"sorttable_numeric\">RangesTested</th>");
-   ip_Socket->Send("<th scope=\"col\" class=\"sorttable_numeric\">%ss</th><th scope=\"col\" class=\"sorttable_numeric\">Near %ss</th></tr>", ic_SearchType, ic_SearchType);
+   ip_Socket->Send("<table id=\"user-stats-table\" class=\"sortable\">");
+
+   ip_Socket->Send("<thead><tr>");
+   TH_CLMN_HDR("User");
+   TH_CLMN_HDR("Total Score");
+   TH_CLMN_HDR("Ranges Tested");
+   ip_Socket->Send("<th scope=\"col\">%ss</th><th scope=\"col\">Near %ss</th></tr>", ic_SearchType, ic_SearchType);
    ip_Socket->Send("</thead><tbody>");
 
    do
    {
-      ip_Socket->Send("<tr><td>%s</td><td style=\"text-align: right;\">%.0lf</td><td style=\"text-align: right;\">%d</td>",
-                        userID, totalScore, testsPerformed);
-      ip_Socket->Send("<td style=\"text-align: right;\">%d</td><td style=\"text-align: right;\">%d</td></tr>",
-                        findCount, nearCount);
+      ip_Socket->Send("<tr>");
+
+      TH_ROW_HDR(userID);
+      TD_FLOAT(totalScore);
+      TD_32BIT(testsPerformed);
+      TD_32BIT(findCount);
+      TD_32BIT(nearCount);
+
+      ip_Socket->Send("</tr>");
    } while (sqlStatement->FetchRow(false));
 
    ip_Socket->Send("</tbody></table></article>");
@@ -539,19 +573,28 @@ void  WWWWHTMLGenerator::UserTeamStats(void)
       return;
 
    ip_Socket->StartBuffering();
-   ip_Socket->Send("<table id=\"user-team-stats-table\"><thead>");
-   ip_Socket->Send("<tr class=\"headercolor\"><th style=\"text-align: center;\" colspan=\"6\">User Team Stats</th></tr>");
-   ip_Socket->Send("<tr><th scope=\"col\">User</th>");
-   ip_Socket->Send("<th scope=\"col\">Team</th><th scope=\"col\">Total Score</th><th scope=\"col\">Ranges Tested</th>");
+   ip_Socket->Send("<table id=\"user-team-stats-table\" class=\"sortable\">");
+
+   ip_Socket->Send("<thead><tr>");
+   TH_CLMN_HDR("User");
+   TH_CLMN_HDR("Team");
+   TH_CLMN_HDR("Total Score");
+   TH_CLMN_HDR("Ranges Tested");
    ip_Socket->Send("<th scope=\"col\">%ss</th><th scope=\"col\">Near %ss</th></tr>", ic_SearchType, ic_SearchType);
    ip_Socket->Send("</thead><tbody>");
 
    do
    {
-      ip_Socket->Send("<tr><td>%s</td><td>%s</td><td style=\"text-align: right;\">%.0lf</td><td style=\"text-align: right;\">%d</td>",
-                        userID, teamID, totalScore, testsPerformed);
-      ip_Socket->Send("<td style=\"text-align: right;\">%d</td><td style=\"text-align: right;\">%d</td></tr>",
-                        findCount, nearCount);
+      ip_Socket->Send("<tr>");
+
+      TD_CHAR(userID);
+      TD_CHAR(teamID);
+      TD_FLOAT(totalScore);
+      TD_32BIT(testsPerformed);
+      TD_32BIT(findCount);
+      TD_32BIT(nearCount);
+
+      ip_Socket->Send("</tr>");
    } while (sqlStatement->FetchRow(false));
 
    ip_Socket->Send("</tbody></table></article>");
@@ -587,19 +630,28 @@ void  WWWWHTMLGenerator::TeamUserStats(void)
       return;
 
    ip_Socket->StartBuffering();
-   ip_Socket->Send("<table id=\"team-user-stats-table\"><thead>");
-   ip_Socket->Send("<tr class=\"headercolor\"><th style=\"text-align: center;\" colspan=\"6\">User Stats by Team</th></tr>");
-   ip_Socket->Send("<tr><th scope=\"col\">Team</th><th scope=\"col\">User</th>");
-   ip_Socket->Send("<th scope=\"col\">Total Score</th><th scope=\"col\">Ranges Tested</th>");
+   ip_Socket->Send("<table id=\"team-user-stats-table\" class=\"sortable\">");
+
+   ip_Socket->Send("<thead><tr>");
+   TH_CLMN_HDR("Team");
+   TH_CLMN_HDR("User");
+   TH_CLMN_HDR("Total Score");
+   TH_CLMN_HDR("Ranges Tested");
    ip_Socket->Send("<th scope=\"col\">%ss</th><th scope=\"col\">Near %ss</th></tr>", ic_SearchType, ic_SearchType);
    ip_Socket->Send("</thead><tbody>");
 
    do
    {
-      ip_Socket->Send("<tr><td>%s</td><td>%s</td><td style=\"text-align: right;\">%.0lf</td><td style=\"text-align: right;\">%d</td>",
-                        teamID, userID, totalScore, testsPerformed);
-      ip_Socket->Send("<td style=\"text-align: right;\">%d</td><td style=\"text-align: right;\">%d</td></tr>",
-                        findCount, nearCount);
+      ip_Socket->Send("<tr>");
+
+      TD_CHAR(teamID);
+      TD_CHAR(userID);
+      TD_FLOAT(totalScore);
+      TD_32BIT(testsPerformed);
+      TD_32BIT(findCount);
+      TD_32BIT(nearCount);
+
+      ip_Socket->Send("</tr>");
    } while (sqlStatement->FetchRow(false));
 
    ip_Socket->Send("</tbody></table></article>");
@@ -634,21 +686,26 @@ void  WWWWHTMLGenerator::TeamStats(void)
       return;
 
    ip_Socket->StartBuffering();
-   ip_Socket->Send("<table style=\"margin-bottom: 1em;\">");
-   ip_Socket->Send("<tr class=\"headercolor\"><th style=\"text-align: center;\" colspan=\"6\">Team Stats</th></tr>");
-   ip_Socket->Send("</table>");
-   ip_Socket->Send("<table id=\"team-stats-table\" class=\"sortable\"><thead>");
-   ip_Socket->Send("<tr><th scope=\"col\">Team</th>");
-   ip_Socket->Send("<th scope=\"col\" class=\"sorttable_numeric\">Total Score</th><th scope=\"col\" class=\"sorttable_numeric\">Tests Performed</th>");
-   ip_Socket->Send("<th scope=\"col\" class=\"sorttable_numeric\">%ss</th><th scope=\"col\" class=\"sorttable_numeric\">Near %ss</th></tr>", ic_SearchType, ic_SearchType);
+   ip_Socket->Send("<table id=\"team-stats-table\" class=\"sortable\">");
+
+   ip_Socket->Send("<thead><tr>");
+   TH_CLMN_HDR("Team");
+   TH_CLMN_HDR("Total Score");
+   TH_CLMN_HDR("Ranges Tested");
+   ip_Socket->Send("<th scope=\"col\">%ss</th><th scope=\"col\">Near %ss</th></tr>", ic_SearchType, ic_SearchType);
    ip_Socket->Send("</thead><tbody>");
 
    do
    {
-      ip_Socket->Send("<tr><td>%s</td><td style=\"text-align: right;\">%.0lf</td><td style=\"text-align: right;\">%d</td>",
-                        teamID, totalScore, testsPerformed);
-      ip_Socket->Send("<td style=\"text-align: right;\">%d</td><td style=\"text-align: right;\">%d</td></tr>",
-                        findCount, nearCount);
+      ip_Socket->Send("<tr>");
+
+      TH_ROW_HDR(teamID);
+      TD_FLOAT(totalScore);
+      TD_32BIT(testsPerformed);
+      TD_32BIT(findCount);
+      TD_32BIT(nearCount);
+
+      ip_Socket->Send("</tr>");
    } while (sqlStatement->FetchRow(false));
 
    ip_Socket->Send("</tbody></table></article>");

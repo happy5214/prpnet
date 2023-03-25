@@ -47,7 +47,7 @@ void SierpinskiRieselHTML::ServerStats(void)
 
    if (ib_ServerStatsSummaryOnly)
    {
-      ip_Socket->Send("<table style=\"margin-bottom: 2em;\"><thead><tr>");
+      ip_Socket->Send("<table class=\"server-stats sortable\"><thead><tr>");
 
       TH_CLMN_HDR("Form");
       TH_CLMN_HDR("Total Candidates");
@@ -102,11 +102,10 @@ void SierpinskiRieselHTML::ServerStats(void)
 
          if (!ib_ServerStatsSummaryOnly)
          {
-            ip_Socket->Send("<table style=\"margin-bottom: 1em;\">");
-            ip_Socket->Send("<tr class=\"headercolor\"><td class=\"headertext\" style=\"font-weight: bold; text-align: center;\" colspan=\"%d\">%s base %d</td></tr>",
-                            (ib_NeedsDoubleCheck ? 12 : 11), (c > 0 ? "Sierpinski" : "Riesel"), b);
-            ip_Socket->Send("</table>");
-            ip_Socket->Send("<table style=\"margin-bottom: 2em;\" class=\"server-stats sortable\"><thead><tr>");
+            ip_Socket->Send("<div class=\"header-box\">");
+            ip_Socket->Send("<span><span>%s base %d</span></span>", (c > 0 ? "Sierpinski" : "Riesel"), b);
+            ip_Socket->Send("</div>");
+            ip_Socket->Send("<table class=\"server-stats sortable\"><thead><tr>");
 
             TH_CLMN_HDR("Form");
             TH_CLMN_HDR("Total Candidates");
@@ -249,8 +248,8 @@ void SierpinskiRieselHTML::ServerStats(void)
    {
       if (!ib_ServerStatsSummaryOnly)
       {
-         ip_Socket->Send("<table style=\"margin-bottom: 2em;\">");
-         ip_Socket->Send("<thead><tr class=\"headercolor\"><th colspan=\"%d\">Totals Across %d Conjectures</th></tr>",
+         ip_Socket->Send("<table class=\"server-stats\">");
+         ip_Socket->Send("<thead><tr><th colspan=\"%d\">Totals Across %d Conjectures</th></tr>",
                          (ib_NeedsDoubleCheck ? 12 : 11), totalConjectures);
          ip_Socket->Send("<tr>");
 
@@ -269,7 +268,7 @@ void SierpinskiRieselHTML::ServerStats(void)
          TH_CLMN_HDR("Remaining <var>k</var>");
 
          ip_Socket->Send("</tr></thead>");
-         ip_Socket->Send("<tbody><tr style=\"background-color: white;\">");
+         ip_Socket->Send("<tbody><tr>");
       }
       else
          ip_Socket->Send("</tbody><tfoot><tr>");
