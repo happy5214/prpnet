@@ -16,7 +16,7 @@ article {
     margin: 2em;
 }
 
-h1, h2 {text-align: center;}
+h1, h2, h3 {text-align: center;}
 tr.untested {background-color: white;}
 tr.tested {background-color: aqua;}
 tr.found {background-color: lime;}
@@ -30,6 +30,7 @@ div.header-box,
 div.no-records-found {
     display: flex;
     justify-content: center;
+    margin-bottom: 1em;
 }
 
 div.header-box span,
@@ -39,7 +40,7 @@ div.no-records-found span {
     padding: 2px;
 }
 
-div.header-box span,
+div.header-box span span,
 div.no-records-found span span {
     background-color: #00386B;
     color: white;
