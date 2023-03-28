@@ -4,18 +4,18 @@ CC=g++
 CPPFLAGS=-c -O2 -m64 -Wall
 
 ifeq ($(OS),Windows_NT)
-   LFLAGS_CLIENT=-lpthread -lstdc++ -o
-   LFLAGS_SERVER=-lpthread -liodbc -lstdc++ -o
+   LFLAGS_CLIENT=-lpthread -lstdc++
+   LFLAGS_SERVER=-lpthread -liodbc -lstdc++
 else
    UNAME_S := $(shell uname -s)
    
    ifeq ($(UNAME_S),Darwin)
-      LFLAGS_CLIENT=-lpthread -lstdc++ -o
-      LFLAGS_SERVER=-framework Carbon -lpthread -liodbc -lstdc++ -o
+      LFLAGS_CLIENT=-lpthread -lstdc++
+      LFLAGS_SERVER=-framework Carbon -lpthread -liodbc -lstdc++
       if test -f /usr/lib/libxnet.so; then LIBS=-lxnet $LIBS
    else
-      LFLAGS_CLIENT=-pthread -lpthread -lstdc++ -o
-      LFLAGS_SERVER=-pthread -lpthread -liodbc -lstdc++ -o
+      LFLAGS_CLIENT=-pthread -lpthread -lstdc++
+      LFLAGS_SERVER=-pthread -lpthread -lodbc -lstdc++
    endif
 endif
 
@@ -72,16 +72,16 @@ HTMLGenerator.o: HTMLGenerator.cpp defs.h
 	$(CC) $(CPPFLAGS) $<
 
 prpadmin: $(ADMINOBJECTS)
-	$(CC) $(LFLAGS_CLIENT) -o $@ $^
+	$(CC) -o $@ $^ $(LFLAGS_CLIENT)
 
 prpclient: $(CLIENTOBJECTS)
-	$(CC) $(LFLAGS_CLIENT) -o $@ $^
+	$(CC) -o $@ $^ $(LFLAGS_CLIENT)
 
-prpserver: $(SERVEROBJECTS) 
-	$(CC) $(LFLAGS_SERVER) -o $@ $^
+prpserver: $(SERVEROBJECTS)
+	$(CC) -o $@ $^ $(LFLAGS_SERVER)
 
 clean_objs:
 	rm -f $(ADMINOBJECTS) $(CLIENTOBJECTS) $(SERVEROBJECTS) *.log
-   
+
 clean:
 	rm *.o prpclient prpserver prpadmin
